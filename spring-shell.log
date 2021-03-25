@@ -1,0 +1,31 @@
+1616698169229:help
+1616698179950:get-event-by-id 1
+1616698964410:quit
+1616698992584:help
+1616698998411:get-event-by-id 1
+1616699006099:get-event-by-id
+1616699013726:get-event-by-id 0
+1616699170762:get-event-by-id (1)
+1616699176227:get-event-by-id 1
+1616699242187:quit
+1616699269344:get-event-by-id 1
+1616699306050:quit
+1616699330666:get-event-by-id 1
+1616699348832:help
+1616699711113:quit
+1616699901103:help
+1616699912121:save-event
+1616700013364:help
+1616700337374:quit
+1616700366037:get-all-event
+1616703161492:quit
+1616703251961:help
+1616703317398:get-ticket-price --okt --21022020 --1 --12 --1
+1616703337932:get-ticket-price --vo --21022020 --1 --12 --1
+1616703352538:get-ticket-price --1 --21022020 --1 --12 --1
+1616703365496:get-ticket-price --1 --21022020 --2 --12 --1
+1616703373693:get-ticket-price --1 --21022020 --2 --12 --3
+1616703379228:get-ticket-price --0 --21022020 --2 --12 --3
+1616703385770:get-ticket-price --O --21022020 --2 --12 --3
+1616703502690:get-ticket-price --event-id 1 --auditorium-name ok --dd-mmyy 21022020 --user-id 3 --ticket-numbers 12
+1616703525415:get-ticket-price --event-id 1 --auditorium-name ok --dd-mmyy 21.02.2020 --user-id 3 --ticket-numbers 12
