@@ -17,7 +17,7 @@ import java.util.Scanner;
 @Component
 public class EventService implements IEventUserService, IAuditoriumEventService, IEventService {
 
-    private final String FILE_PATH = "src\\main\\resources\\events\\events.csv";
+    private final String FILE_PATH = "src/main/resources/events/events.csv";
     @Autowired
     private Scanner scanner;
     @Autowired

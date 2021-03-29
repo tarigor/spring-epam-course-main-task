@@ -9,14 +9,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class MovieTheaterApplication {
 
 	public static void main(String[] args) {
-
 		SpringApplication.run(MovieTheaterApplication.class, args);
-
-		AnnotationConfigApplicationContext context =
-				new AnnotationConfigApplicationContext();
-		context.register(ConfigService.class);
-		context.scan("com.epam.movieTheater");
-		context.refresh();
 	}
-
 }

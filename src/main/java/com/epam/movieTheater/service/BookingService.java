@@ -46,7 +46,7 @@ public class BookingService {
             int i = 1;
             for (Integer seat : seats) {
                 System.out.println("___________________________________");
-                properties.load(propertiesFilesInputStream.getPath(".\\src\\main\\resources\\service\\ratingFactor.properties"));
+                properties.load(propertiesFilesInputStream.getPath("src/main/resources/service/ratingFactor.properties"));
 
                 discount = discountService.getDiscountValue(user, dateTime);
                 ServiceUtility.outputMessageToConsole("Total Discount For Order: ", discount);
@@ -87,7 +87,7 @@ public class BookingService {
     }
 
     public void bookTicket(TicketCsv ticketCsv) {
-        beanToCsvBuilderUtility.writeListToCsv("src\\main\\resources\\tickets\\tickets.csv", ticketCsv, TicketCsv.class,true);
+        beanToCsvBuilderUtility.writeListToCsv("src/main/resources/tickets/tickets.csv", ticketCsv, TicketCsv.class,true);
         userService.updateUserHistory(ticketCsv);
     }
 

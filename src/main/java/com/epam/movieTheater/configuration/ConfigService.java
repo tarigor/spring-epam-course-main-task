@@ -7,7 +7,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
+import java.io.PrintStream;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;

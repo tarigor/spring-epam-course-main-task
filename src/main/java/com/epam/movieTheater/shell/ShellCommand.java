@@ -1,14 +1,19 @@
 package com.epam.movieTheater.shell;
 
+import com.epam.movieTheater.entity.Event;
+import com.epam.movieTheater.entity.User;
 import com.epam.movieTheater.service.AuditoriumService;
 import com.epam.movieTheater.service.BookingService;
 import com.epam.movieTheater.service.EventService;
 import com.epam.movieTheater.service.UserService;
+import com.epam.movieTheater.utility.ConsoleService;
+import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @ShellComponent
 public class ShellCommand {
@@ -17,12 +22,20 @@ public class ShellCommand {
     private final EventService eventService;
     private final AuditoriumService auditoriumService;
     private final BookingService bookingService;
+    private final ConsoleService consoleService;
 
-    public ShellCommand(UserService userService, EventService eventService, AuditoriumService auditoriumService, BookingService bookingService) {
+    private String connectionStatus = "guest>";
+
+    public String getConnectionStatus() {
+        return connectionStatus;
+    }
+
+    public ShellCommand(UserService userService, EventService eventService, AuditoriumService auditoriumService, BookingService bookingService, ConsoleService consoleService) {
         this.userService = userService;
         this.eventService = eventService;
         this.auditoriumService = auditoriumService;
         this.bookingService = bookingService;
+        this.consoleService = consoleService;
     }
 
     @ShellMethod("Create a new User")
@@ -53,6 +66,10 @@ public class ShellCommand {
     @ShellMethod("Create a new Event")
     public void createNewEvent() {
         eventService.save();
+    }
+
+    Availability createNewEventAvailability() {
+        return connectionStatus.contentEquals("admin") ? Availability.available() : Availability.unavailable("admin rights is required");
     }
 
     @ShellMethod("Remove an event")
@@ -94,5 +111,32 @@ public class ShellCommand {
                 userService.getById(userID),
                 ticketNumbers
         );
+    }
+
+    @ShellMethod("Get purchased tickets")
+    public void getPurchasedTickets(Event event, Date dateTime){
+
+    }
+
+    Availability getPurchasedTicketsAvailability() {
+        return connectionStatus.contentEquals("admin") ? Availability.available() : Availability.unavailable("admin rights is required");
+    }
+
+
+
+    @ShellMethod("User sign-in")
+    public void userSignIn(String userEmail, String password) {
+        Object connectionResult = userService.connect(userEmail, password);
+        if (!connectionResult.equals(false)) {
+            consoleService.write("connected %s.", ((User) connectionResult).getName());
+            connectionStatus = ((User) connectionResult).getName();
+        } else {
+            connectionStatus = "guest";
+        }
+    }
+
+    @ShellMethod("sign-off")
+    public void signOff() {
+        connectionStatus = "guest";
     }
 }

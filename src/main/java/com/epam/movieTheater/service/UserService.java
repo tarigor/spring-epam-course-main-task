@@ -12,11 +12,12 @@ import javax.annotation.Resource;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Component
 public class UserService implements IUserService {
 
-    private final String FILE_PATH = "src\\main\\resources\\users\\users.csv";
+    private final String FILE_PATH = "src/main/resources/users/users.csv";
 
     @Autowired
     private Scanner scanner;
@@ -95,7 +96,7 @@ public class UserService implements IUserService {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        usersList.forEach(System.out::println);
+//        usersList.forEach(System.out::println);
         return usersList;
     }
 
@@ -110,5 +111,16 @@ public class UserService implements IUserService {
         for (User user : userList) {
             beanToCsvBuilderUtility.writeListToCsv(FILE_PATH, user, User.class, true);
         }
+    }
+
+    public Object connect(String userEmail, String password){
+        for (User userFromList:getAll()) {
+            if(userEmail.contentEquals(userFromList.getEmail())){
+                userFromList.setConnected(true);
+                return userFromList;
+            }
+        }
+        System.out.println("There is no such user with typed email");
+        return false;
     }
 }

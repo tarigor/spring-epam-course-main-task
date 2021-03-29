@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Component
 @Scope("prototype")
@@ -35,6 +36,16 @@ public class User {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private UserOrderHistory userOrderHistory;
+
+    private Boolean connected;
+
+    public Boolean getConnected() {
+        return connected;
+    }
+
+    public void setConnected(Boolean connected) {
+        this.connected = connected;
+    }
 
     public User(Integer id, String name, String email, String birthday, String orderHistory) {
         this.id = id;

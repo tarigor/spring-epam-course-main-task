@@ -38,10 +38,10 @@ public class EventsSchedulerService implements IEventsScheduler {
 
     @PostConstruct
     public void toCreateUsersArray() {
-        propertiesFiles = propertyFilesScanner.getAllPropertiesFiles(".\\src\\main\\resources\\eventsSchedule");
+        propertiesFiles = propertyFilesScanner.getAllPropertiesFiles("src/main/resources/eventsSchedule");
         for (int i = 0; i < propertiesFiles.size(); i++) {
             try {
-                properties.load(propertiesFilesInputStream.getPath(".\\src\\main\\resources\\eventsSchedule\\%s", propertiesFiles, i));
+                properties.load(propertiesFilesInputStream.getPath("src/main/resources/eventsSchedule/%s", propertiesFiles, i));
                 eventScheduleList.add(eventSchedule.setEventSchedule(properties, getTotalPriceOfEvent()));
             } catch (IOException e) {
                 e.printStackTrace();

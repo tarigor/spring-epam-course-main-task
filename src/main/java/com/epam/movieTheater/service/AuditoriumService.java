@@ -14,7 +14,7 @@ import java.util.Scanner;
 @Component
 public class AuditoriumService implements IAuditoriumEventUserService, IAuditoriumEventService {
 
-    private final String FILE_PATH = "src\\main\\resources\\auditoriums\\auditoriums.csv";
+    private final String FILE_PATH = "src/main/resources/auditoriums/auditoriums.csv";
     @Resource
     Scanner scanner;
     Integer auditoriumId;

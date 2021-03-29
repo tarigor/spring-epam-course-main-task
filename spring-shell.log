@@ -29,3 +29,69 @@
 1616703385770:get-ticket-price --O --21022020 --2 --12 --3
 1616703502690:get-ticket-price --event-id 1 --auditorium-name ok --dd-mmyy 21022020 --user-id 3 --ticket-numbers 12
 1616703525415:get-ticket-price --event-id 1 --auditorium-name ok --dd-mmyy 21.02.2020 --user-id 3 --ticket-numbers 12
+1616746676361:quit
+1616746853908:help
+1616747064548:get-all-user
+1616747751028:quit
+1616843867373:help
+1616843883598:get-all-auditoriums
+1616845267822:quit
+1616845296424:help
+1616845302903:get-all-auditoriums
+1616845437325:quit
+1616845460489:get-all-auditoriums
+1616845513406:quit
+1616845535690:get-all-auditoriums
+1616845966139:help
+1616845974176:get-all-event
+1616846268664:help
+1616846276168:create-new-user
+1616847340317:cd target
+1616847344019:quir
+1616847345928:quit
+1616848023513:help
+1616848037259:get-ticket-price
+1616922156532:help
+1616922165715:get-all-event
+1617038035315:help
+1617038053538:get-all-user
+1617043071059:quit
+1617043090289:help
+1617043123010:user-sign-in tolik@yandex.ru 1
+1617044051631:quit
+1617044114792:help
+1617044127763:user-sign-in tolik@yandex.ru 1
+1617044442814:help
+1617044452701:quit
+1617044489782:user-sign-in admin admin
+1617044931994:quit
+1617045032319:user-sign-in admin admin
+1617045053568:quit
+1617045302110:user-sign-in admin admin
+1617045309264:sign-off
+1617045329500:user-sign-in tolik@yandex.ru
+1617045335837:user-sign-in tolik@yandex.ru 1
+1617045462313:user-sign-in tolik@yandex.ru
+1617045468711:user-sign-in tolik@yandex.ru a
+1617045571338:user-sign-in Tolik@yandex.ru a
+1617045593878:user-sign-in tolik@yandex.ru a
+1617045732335:quit
+1617045757563:user-sign-in tolik@yandex.ru
+1617045760827:user-sign-in tolik@yandex.ru 1
+1617045887259:quit
+1617045916596:user-sign-in tolik@yandex.ru 1
+1617046242002:quit
+1617046267135:user-sign-in tolik@yandex.ru 1
+1617046440687:quit
+1617046472587:user-sign-in  tolik@yandex.ru 1
+1617046476871:sign-off
+1617046486617:user-sign-in admin admin
+1617046493435:sign-off
+1617046823789:help
+1617046929008:quit
+1617046947810:help
+1617047591328:quit
+1617047615055:help
+1617047632841:user-sign-in admin admin
+1617047639769:help
+1617047670667:quit
