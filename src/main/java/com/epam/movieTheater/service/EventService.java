@@ -55,6 +55,10 @@ public class EventService implements IEventUserService, IAuditoriumEventService,
 
     }
 
+    public String getEventPrice(Event event){
+        return event.getEventPrice();
+    }
+
     @Override
     public void save() {
         System.out.println("Input a name of event:");

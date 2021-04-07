@@ -77,7 +77,7 @@ public class User {
                     Integer.parseInt(orderHistory.split(",")[1]),
                     LocalDate.parse(orderHistory.split(",")[2], DateTimeFormatter.ofPattern("dd.MM.yyyy"))
             ));
-            System.out.println("u: " + userOrderHistoryList.toString());
+//            System.out.println("u: " + userOrderHistoryList.toString());
         }
         return userOrderHistoryList;
     }

@@ -4,36 +4,24 @@ import com.epam.movieTheater.entity.Auditorium;
 import com.epam.movieTheater.service.impl.IAuditoriumEventService;
 import com.epam.movieTheater.service.impl.IAuditoriumEventUserService;
 import com.epam.movieTheater.utility.CsvToBeanBuilderUtility;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Scanner;
 
 @Component
 public class AuditoriumService implements IAuditoriumEventUserService, IAuditoriumEventService {
 
     private final String FILE_PATH = "src/main/resources/auditoriums/auditoriums.csv";
-    @Resource
-    Scanner scanner;
-    Integer auditoriumId;
-    @Resource
-    private CsvToBeanBuilderUtility csvToBeanBuilderUtility;
+    private final CsvToBeanBuilderUtility csvToBeanBuilderUtility;
+    private Integer auditoriumId;
     private List<Auditorium> auditoriumsList;
 
-    @Resource
-    private Auditorium auditorium;
-
-
-    public AuditoriumService() {
+    @Autowired
+    public AuditoriumService(CsvToBeanBuilderUtility csvToBeanBuilderUtility) {
+        this.csvToBeanBuilderUtility = csvToBeanBuilderUtility;
         auditoriumId = 0;
-    }
-
-
-    private Integer auditoriumIdIncrement() {
-        auditoriumId++;
-        return auditoriumId;
     }
 
     @Override
@@ -55,7 +43,6 @@ public class AuditoriumService implements IAuditoriumEventUserService, IAuditori
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-//        auditoriumsList.forEach(System.out::println);
         return auditoriumsList;
     }
 }

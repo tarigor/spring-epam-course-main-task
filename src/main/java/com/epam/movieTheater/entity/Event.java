@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Qualifier("eventt")
+//@Qualifier("eventt")
 @Scope("prototype")
 public class Event {
 

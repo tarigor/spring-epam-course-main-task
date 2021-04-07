@@ -17,9 +17,9 @@ public class DiscountService {
     public DiscountService() {
     }
 
-    public Double getDiscountValue(User user, LocalDate dateTime) {
-        Double birthDayDiscount = discountStrategy.checkBirthdayDiscount(user, dateTime);
-        Double every10TicketsDiscount = discountStrategy.checkEvery10TicketsDiscount(user);
+    public Double getDiscountValue(Integer userId, LocalDate dateTime) {
+        Double birthDayDiscount = discountStrategy.checkBirthdayDiscount(userId, dateTime);
+        Double every10TicketsDiscount = discountStrategy.checkEvery10TicketsDiscount(userId);
         ServiceUtility.outputMessageToConsole("Birthday discount: ", birthDayDiscount);
         ServiceUtility.outputMessageToConsole("Every 10 tickets discount: ", every10TicketsDiscount);
 

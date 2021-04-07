@@ -108,7 +108,7 @@ public class ShellCommand {
                 eventService.getById(eventID),
                 auditoriumService.getByName(auditoriumName),
                 LocalDate.parse(ddMMyy, DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                userService.getById(userID),
+                userID,
                 ticketNumbers
         );
     }

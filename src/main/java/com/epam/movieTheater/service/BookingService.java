@@ -27,13 +27,16 @@ public class BookingService {
     @Autowired
     TicketCsv ticketCsv;
 
+    @Autowired
+    EventService eventService;
+
     private Integer fileIndex;
 
     public BookingService() {
         fileIndex = 0;
     }
 
-    public void getTicketsPrice(Event event, Auditorium auditorium, LocalDate dateTime, User user, Integer[] seats) {
+    public void getTicketsPrice(Event event, Auditorium auditorium, LocalDate dateTime, Integer userId, Integer[] seats) {
         Double totalPriceOfAllTickets = 0.0;
         Double discount;
         Double basePriceForEvent;
@@ -48,10 +51,10 @@ public class BookingService {
                 System.out.println("___________________________________");
                 properties.load(propertiesFilesInputStream.getPath("src/main/resources/service/ratingFactor.properties"));
 
-                discount = discountService.getDiscountValue(user, dateTime);
+                discount = discountService.getDiscountValue(userId, dateTime);
                 ServiceUtility.outputMessageToConsole("Total Discount For Order: ", discount);
 
-                basePriceForEvent = Double.valueOf(event.getEventPrice());
+                basePriceForEvent = Double.valueOf(eventService.getEventPrice(event));
                 ServiceUtility.outputMessageToConsole("Base price for event per single ticket: ", basePriceForEvent);
                 factorPriceDependsOnRating = Double.valueOf(properties.getProperty(event.getRating()));
                 ServiceUtility.outputMessageToConsole("event factor price: ", factorPriceDependsOnRating);
@@ -75,6 +78,11 @@ public class BookingService {
         }
         System.out.format("Total price of all tickets: %.2f", totalPriceOfAllTickets);
     }
+
+//    public String getEventPrices(Event event){
+//        System.out.println("I'm here!!!!!");
+//        return event.getEventPrice();
+//    }
 
     private Boolean checkIfSeatIsVip(Integer seat, Auditorium auditorium) {
         ServiceUtility.outputMessageToConsole("seat number:", seat);
