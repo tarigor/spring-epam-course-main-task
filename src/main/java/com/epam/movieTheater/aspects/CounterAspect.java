@@ -1,6 +1,5 @@
 package com.epam.movieTheater.aspects;
 
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -40,7 +39,7 @@ public class CounterAspect extends CommonAspect{
     }
 
     @AfterReturning("counterOfGetEventPrice()")
-    public void countOfGetPriceOfEvent(JoinPoint joinPoint) {
+    public void countOfGetPriceOfEvent() {
         String name = "Method: getEventPrice:";
         if (!counterGetEventPrice.containsKey(name)) {
             counterGetEventPrice.put(name, 0);
@@ -49,7 +48,7 @@ public class CounterAspect extends CommonAspect{
     }
 
     @AfterReturning("counterOfBookTickets()")
-    public void countOfBookTickets(JoinPoint joinPoint) {
+    public void countOfBookTickets() {
         String name = "Method: bookTickets:";
         if (!counterBookTicket.containsKey(name)) {
             counterBookTicket.put(name, 0);

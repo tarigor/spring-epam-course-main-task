@@ -15,13 +15,10 @@ import java.util.Map;
 @Aspect
 @Component
 public class DiscountAspect extends CommonAspect{
-    //    DiscountAspect
-//    count how many times each discount was given total and for specific user.
+
     @Value("${filterOfDiscountProviderByUserId}")
     private String userId;
-
     Map<String, Integer> birthdayDiscountMap = new HashMap<>();
-
     @Autowired
     private UserService userService;
 
@@ -31,10 +28,6 @@ public class DiscountAspect extends CommonAspect{
 
     @AfterReturning("counterOfBirthdayDiscount()")
     public void countOfBirthdayDiscount(JoinPoint joinPoint) {
-//        System.out.println("args:" + ((User)joinPoint.getArgs()[0]).getName());
-
-        System.out.println("User ID -> " + userId + " User Name -> " + userService.getById(Integer.parseInt(userId)).getName());
-
         if (userId.contentEquals("all")) {
             String discountName = "Birthday discount";
             if (!birthdayDiscountMap.containsKey(discountName)) {

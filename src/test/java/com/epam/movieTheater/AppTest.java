@@ -72,11 +72,11 @@ public class AppTest {
 //        System.out.println(userService.getUserByEmail("egor").toString());
 //        System.out.println("result: " + userService.getById(1).toString());
 
-        counterAspect.outputCounter(counterAspect, counterAspect.getCounterGetByNameOfEvent(), "Statistic of getByName of Event method calls:");
-        counterAspect.outputCounter(counterAspect, counterAspect.getCounterGetEventPrice(), "Statistic of getEventPrice of Event method calls:");
-        counterAspect.outputCounter(counterAspect, counterAspect.getCounterBookTicket(), "Statistic of booked tickets:");
-
-        discountAspect.outputCounter(discountAspect, discountAspect.getBirthdayDiscountMap(), "Statistic of provided birthday's discount:");
+//        counterAspect.outputCounter(counterAspect, counterAspect.getCounterGetByNameOfEvent(), "Statistic of getByName of Event method calls:");
+//        counterAspect.outputCounter(counterAspect, counterAspect.getCounterGetEventPrice(), "Statistic of getEventPrice of Event method calls:");
+//        counterAspect.outputCounter(counterAspect, counterAspect.getCounterBookTicket(), "Statistic of booked tickets:");
+//
+//        discountAspect.outputCounter(discountAspect, discountAspect.getBirthdayDiscountMap(), "Statistic of provided birthday's discount:");
     }
 
 }

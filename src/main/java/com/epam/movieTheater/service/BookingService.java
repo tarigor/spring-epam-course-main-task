@@ -1,6 +1,9 @@
 package com.epam.movieTheater.service;
 
-import com.epam.movieTheater.entity.*;
+import com.epam.movieTheater.entity.Auditorium;
+import com.epam.movieTheater.entity.Event;
+import com.epam.movieTheater.entity.PropertiesFilesInputStream;
+import com.epam.movieTheater.entity.TicketCsv;
 import com.epam.movieTheater.utility.BeanToCsvBuilderUtility;
 import com.epam.movieTheater.utility.ServiceUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +79,7 @@ public class BookingService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.format("Total price of all tickets: %.2f", totalPriceOfAllTickets);
+        System.out.format("Total price of all tickets: %.2f" + "\n", totalPriceOfAllTickets);
     }
 
 //    public String getEventPrices(Event event){
@@ -95,7 +98,8 @@ public class BookingService {
     }
 
     public void bookTicket(TicketCsv ticketCsv) {
-        beanToCsvBuilderUtility.writeListToCsv("src/main/resources/tickets/tickets.csv", ticketCsv, TicketCsv.class,true);
+        System.out.println("Inside the bookTicket method");
+        beanToCsvBuilderUtility.writeListToCsv("src/main/resources/tickets/tickets.csv", ticketCsv, TicketCsv.class, true);
         userService.updateUserHistory(ticketCsv);
     }
 
