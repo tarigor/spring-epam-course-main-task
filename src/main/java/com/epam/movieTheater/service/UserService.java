@@ -3,35 +3,37 @@ package com.epam.movieTheater.service;
 import com.epam.movieTheater.entity.TicketCsv;
 import com.epam.movieTheater.entity.User;
 import com.epam.movieTheater.service.impl.IUserService;
-import com.epam.movieTheater.utility.BeanToCsvBuilderUtility;
-import com.epam.movieTheater.utility.CsvToBeanBuilderUtility;
+import com.epam.movieTheater.utility.DatabaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import java.io.FileNotFoundException;
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Component
 public class UserService implements IUserService {
 
+    private final String SQL_QUERY_INSERT_TO_USER_TABLE = "INSERT INTO t_users (id, userName, userEmail, userBirthday, userOrderHistory) VALUES (?,?,?,?,?)";
     private final String FILE_PATH = "src/main/resources/users/users.csv";
-
+    private final String USERS_TABLE_SQL_QUERY = "t_users (" + "id INT NOT NULL PRIMARY KEY," +
+            "userName VARCHAR(255)," +
+            "userEmail VARCHAR(255)," +
+            "userBirthday VARCHAR(255)," +
+            "userOrderHistory VARCHAR(255)" + ")";
     @Autowired
     private Scanner scanner;
-    @Autowired
-    private User user;
-    @Resource
-    private CsvToBeanBuilderUtility csvToBeanBuilderUtility;
-    @Resource
-    private BeanToCsvBuilderUtility beanToCsvBuilderUtility;
     private final Integer userId;
-    private List<User> usersList;
+    @Autowired
+    private DatabaseController databaseController;
 
     public UserService() {
         userId = 0;
+    }
+
+    @PostConstruct
+    private void checkIfUsersTableExists() {
+        databaseController.checkIfTableExists(USERS_TABLE_SQL_QUERY, "USERS");
     }
 
     @Override
@@ -48,22 +50,23 @@ public class UserService implements IUserService {
 
     @Override
     public void save() {
-//        id,name,email,birthday
+
         System.out.println("Input a name of user:");
         String inputName = scanner.nextLine();
         System.out.println("Input an email of user:");
         String inputEmail = scanner.nextLine();
         System.out.println("Input a birthday date (format DD.MM.YYYY):");
         String inputBirthday = scanner.nextLine();
-        user = user.createUser(toIncrementUserId(), inputName, inputEmail, inputBirthday, "");
-        System.out.println(user.toString());
 
-        beanToCsvBuilderUtility.writeListToCsv(FILE_PATH, user, User.class, true);
+        databaseController.updateTable(SQL_QUERY_INSERT_TO_USER_TABLE, String.valueOf(toIncrementUserId()), inputName, inputEmail, inputBirthday, "");
+
+        List<User> list = databaseController.getUsersTable();
+        System.out.println("Saved to DB user with id " + list.get(list.size() - 1).getId());
     }
 
     private Integer toIncrementUserId() {
         List<User> list = getAll();
-        if (list.size() == 1) {
+        if (list.size() == 0) {
             return 0;
         }
         return list.get(list.size() - 1).getId() + 1;
@@ -86,31 +89,21 @@ public class UserService implements IUserService {
         }
         System.out.println("there is no such user with id:" + id);
         return null;
-//        return getAll().stream().filter(u -> u.getId().equals(id)).findFirst().orElseThrow();
     }
 
     @Override
     public List<User> getAll() {
-        try {
-            usersList = csvToBeanBuilderUtility.getListOfBeansFromCsv(FILE_PATH, User.class);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-//        usersList.forEach(System.out::println);
-        return usersList;
+        return databaseController.getUsersTable();
     }
 
     public void updateUserHistory(TicketCsv ticketCsv) {
-        List<User> userList = getAll();
-        for (User user : userList) {
-            if (user.getId().equals(ticketCsv.getUserId())) {
-                user.setOrderHistory(user.getOrderHistory() + ":" + ticketCsv.toString());
-            }
+        String updatedOrderHistory;
+        if (getById(ticketCsv.getUserId()).getOrderHistory().contentEquals("")) {
+            updatedOrderHistory = ticketCsv.toString();
+        } else {
+            updatedOrderHistory = getById(ticketCsv.getUserId()).getOrderHistory() + ":" + ticketCsv.toString();
         }
-        beanToCsvBuilderUtility.writeListToCsv(FILE_PATH, null, User.class, false);
-        for (User user : userList) {
-            beanToCsvBuilderUtility.writeListToCsv(FILE_PATH, user, User.class, true);
-        }
+        databaseController.updateTable("UPDATE T_USERS SET USERORDERHISTORY='" + updatedOrderHistory + "' WHERE ID=" + ticketCsv.getUserId());
     }
 
     public Object connect(String userEmail, String password){

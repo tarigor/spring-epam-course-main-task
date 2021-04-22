@@ -10,9 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 @SpringBootTest(properties = {
         InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
         ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
@@ -44,28 +41,28 @@ public class AppTest {
 //        System.out.println("---------------------------");
 //        eventsSchedulerService.getAll();
 
-        System.out.println("event name: " + eventService.getByName("i"));
-        System.out.println("event name: " + eventService.getByName("a"));
-        System.out.println("event name: " + eventService.getByName("k"));
+//        System.out.println("event name: " + eventService.getByName("i"));
+//        System.out.println("event name: " + eventService.getByName("a"));
+//        System.out.println("event name: " + eventService.getByName("k"));
 
 //        System.out.println("auditorium name:" + auditoriumService.getAuditoriumBase().get(1).getAuditoriumName());
-        System.out.println("User Name: " + userService.getById(1).getName());
-        bookingService.getTicketsPrice(
-                eventService.getById(1),
-                auditoriumService.getAll().get(1),
-                LocalDate.parse("10.01.1980", DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                1,
-                new Integer[]{1, 5, 6, 10});
-
-        bookingService.getTicketsPrice(
-                eventService.getById(3),
-                auditoriumService.getAll().get(3),
-                LocalDate.parse("10.01.1980", DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                3,
-                new Integer[]{1, 2, 8, 13});
+//        System.out.println("User Name: " + userService.getById(1).getName());
+//        bookingService.getTicketsPrice(
+//                eventService.getById(1),
+//                auditoriumService.getAll().get(1),
+//                LocalDate.parse("10.01.1980", DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+//                1,
+//                new Integer[]{1, 5, 6, 10});
+//
+//        bookingService.getTicketsPrice(
+//                eventService.getById(3),
+//                auditoriumService.getAll().get(3),
+//                LocalDate.parse("10.01.1980", DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+//                3,
+//                new Integer[]{1, 2, 8, 13});
 //        System.out.println(userService.getById(1).getName());
-        bookingService.bookTicket(new TicketCsv().setTicketCsv(3, 2, "06.04.2021", 2));
-        bookingService.bookTicket(new TicketCsv().setTicketCsv(1, 3, "08.04.2021", 2));
+//        bookingService.bookTicket(new TicketCsv().setTicketCsv(3, 2, "06.04.2021", 2));
+//        bookingService.bookTicket(new TicketCsv().setTicketCsv(1, 3, "08.04.2021", 2));
 //        userService.save();
 //        userService.getAll().forEach(System.out::println);
 //        System.out.println(userService.getById(3).toString());
@@ -77,6 +74,7 @@ public class AppTest {
 //        counterAspect.outputCounter(counterAspect, counterAspect.getCounterBookTicket(), "Statistic of booked tickets:");
 //
 //        discountAspect.outputCounter(discountAspect, discountAspect.getBirthdayDiscountMap(), "Statistic of provided birthday's discount:");
+        auditoriumService.getAll().forEach(System.out::println);
     }
 
 }

@@ -3,24 +3,35 @@ package com.epam.movieTheater.service;
 import com.epam.movieTheater.entity.Auditorium;
 import com.epam.movieTheater.service.impl.IAuditoriumEventService;
 import com.epam.movieTheater.service.impl.IAuditoriumEventUserService;
-import com.epam.movieTheater.utility.CsvToBeanBuilderUtility;
+import com.epam.movieTheater.utility.DatabaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.FileNotFoundException;
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Component
 public class AuditoriumService implements IAuditoriumEventUserService, IAuditoriumEventService {
 
-    private final String FILE_PATH = "src/main/resources/auditoriums/auditoriums.csv";
-    private final CsvToBeanBuilderUtility csvToBeanBuilderUtility;
+    private final String AUDITORIUMS_TABLE_SQL_QUERY = "t_auditoriums (" + "id INT NOT NULL PRIMARY KEY," +
+            "auditoriumName VARCHAR(255)," +
+            "numberOfSeats VARCHAR(255)," +
+            "vipSeats VARCHAR(255)," +
+            "priceForBasicSeat VARCHAR(255)," +
+            "factorForVipSeat VARCHAR(255)," +
+            "factorForHighRatedEvent VARCHAR(255)" + ")";
+
     private Integer auditoriumId;
-    private List<Auditorium> auditoriumsList;
+    @Autowired
+    private DatabaseController databaseController;
+
+    @PostConstruct
+    public void checkIfAuditoriumDatabaseExists() {
+        databaseController.checkIfTableExists(AUDITORIUMS_TABLE_SQL_QUERY, "AUDITORIUMS");
+    }
 
     @Autowired
-    public AuditoriumService(CsvToBeanBuilderUtility csvToBeanBuilderUtility) {
-        this.csvToBeanBuilderUtility = csvToBeanBuilderUtility;
+    public AuditoriumService() {
         auditoriumId = 0;
     }
 
@@ -38,11 +49,6 @@ public class AuditoriumService implements IAuditoriumEventUserService, IAuditori
 
     @Override
     public List<Auditorium> getAll() {
-        try {
-            auditoriumsList = csvToBeanBuilderUtility.getListOfBeansFromCsv(FILE_PATH, Auditorium.class);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return auditoriumsList;
+        return databaseController.getAuditoriumsTable();
     }
 }

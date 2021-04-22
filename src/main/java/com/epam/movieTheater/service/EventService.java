@@ -6,31 +6,39 @@ import com.epam.movieTheater.service.impl.IEventService;
 import com.epam.movieTheater.service.impl.IEventUserService;
 import com.epam.movieTheater.utility.BeanToCsvBuilderUtility;
 import com.epam.movieTheater.utility.CsvToBeanBuilderUtility;
+import com.epam.movieTheater.utility.DatabaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.FileNotFoundException;
+import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 @Component
 public class EventService implements IEventUserService, IAuditoriumEventService, IEventService {
+    private final String EVENTS_TABLE_SQL_QUERY = "t_events (" + "id INT NOT NULL PRIMARY KEY," +
+            "eventName VARCHAR(255)," +
+            "eventPrice VARCHAR(255)," +
+            "rating VARCHAR(255)," +
+            "eventDate VARCHAR(255)" + ")";
+    private final String SQL_QUERY_INSERT_TO_EVENTS_TABLE = "INSERT INTO t_events (id, eventName, eventPrice, rating, eventDate) VALUES (?,?,?,?,?)";
 
-    private final String FILE_PATH = "src/main/resources/events/events.csv";
     @Autowired
     private Scanner scanner;
-    @Autowired
-    private CsvToBeanBuilderUtility csvToBeanBuilderUtility;
-    @Autowired
-    private BeanToCsvBuilderUtility beanToCsvBuilderUtility;
     private final Integer eventId;
-    private List<Event> eventsList;
     @Autowired
     private Event event;
+    @Autowired
+    private DatabaseController databaseController;
 
     public EventService() {
         eventId = 0;
+    }
+
+    @PostConstruct
+    private void checkIfEventsTableExists() {
+        databaseController.checkIfTableExists(EVENTS_TABLE_SQL_QUERY, "EVENTS");
     }
 
     @Override
@@ -71,9 +79,10 @@ public class EventService implements IEventUserService, IAuditoriumEventService,
         String inputEventDay = scanner.nextLine();
         event = event.setEvent(toIncrementEventId(), inputName, inputPrice, inputRating, inputEventDay);
 
-        System.out.println(event.toString());
+        databaseController.updateTable(SQL_QUERY_INSERT_TO_EVENTS_TABLE, String.valueOf(toIncrementEventId()), inputName, inputPrice, inputRating, inputEventDay);
 
-        beanToCsvBuilderUtility.writeListToCsv(FILE_PATH, event, Event.class,true);
+        List<Event> list = getAll();
+        System.out.println("Saved to DB event with id " + list.get(list.size() - 1).getEventId());
     }
 
     @Override
@@ -95,18 +104,12 @@ public class EventService implements IEventUserService, IAuditoriumEventService,
 
     @Override
     public List<Event> getAll() {
-        try {
-            eventsList = csvToBeanBuilderUtility.getListOfBeansFromCsv(FILE_PATH, Event.class);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-//        eventsList.forEach(System.out::println);
-        return eventsList;
+        return databaseController.getEventsTable();
     }
 
     private Integer toIncrementEventId() {
         List<Event> list = getAll();
-        if (list.size() == 1) {
+        if (list.size() == 0) {
             return 0;
         }
         return list.get(list.size() - 1).getEventId() + 1;

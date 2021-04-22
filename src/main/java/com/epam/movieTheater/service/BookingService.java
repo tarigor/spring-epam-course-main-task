@@ -5,10 +5,12 @@ import com.epam.movieTheater.entity.Event;
 import com.epam.movieTheater.entity.PropertiesFilesInputStream;
 import com.epam.movieTheater.entity.TicketCsv;
 import com.epam.movieTheater.utility.BeanToCsvBuilderUtility;
+import com.epam.movieTheater.utility.DatabaseController;
 import com.epam.movieTheater.utility.ServiceUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
@@ -16,6 +18,13 @@ import java.util.Properties;
 
 @Component
 public class BookingService {
+
+    private final String TICKETS_TABLE_SQL_QUERY = "t_tickets (" +
+            "userId INT," +
+            "eventId INT," +
+            "orderDate VARCHAR(255)," +
+            "seat INT" + ")";
+    private final String INSERT_TICKETS_TABLE_SQL_QUERY = "INSERT INTO T_TICKETS (USERID, EVENTID, ORDERDATE, SEAT) VALUES (?,?,?,?)";
 
     @Autowired
     DiscountService discountService;
@@ -26,17 +35,21 @@ public class BookingService {
     @Autowired
     UserService userService;
     @Autowired
-    BeanToCsvBuilderUtility beanToCsvBuilderUtility;
-    @Autowired
     TicketCsv ticketCsv;
-
     @Autowired
     EventService eventService;
+    @Autowired
+    private DatabaseController databaseController;
 
     private Integer fileIndex;
 
     public BookingService() {
         fileIndex = 0;
+    }
+
+    @PostConstruct
+    private void checkIfTicketsTableExists() {
+        databaseController.checkIfTableExists(TICKETS_TABLE_SQL_QUERY, "TICKETS");
     }
 
     public void getTicketsPrice(Event event, Auditorium auditorium, LocalDate dateTime, Integer userId, Integer[] seats) {
@@ -98,8 +111,11 @@ public class BookingService {
     }
 
     public void bookTicket(TicketCsv ticketCsv) {
-        System.out.println("Inside the bookTicket method");
-        beanToCsvBuilderUtility.writeListToCsv("src/main/resources/tickets/tickets.csv", ticketCsv, TicketCsv.class, true);
+        databaseController.updateTable(INSERT_TICKETS_TABLE_SQL_QUERY,
+                String.valueOf(ticketCsv.getUserId()),
+                String.valueOf(ticketCsv.getEventId()),
+                ticketCsv.getOrderDate(),
+                String.valueOf(ticketCsv.getSeat()));
         userService.updateUserHistory(ticketCsv);
     }
 

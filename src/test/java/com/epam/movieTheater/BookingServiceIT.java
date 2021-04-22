@@ -1,11 +1,10 @@
 package com.epam.movieTheater;
 
-import com.epam.movieTheater.entity.Auditorium;
-import com.epam.movieTheater.entity.Event;
-import com.epam.movieTheater.entity.Rating;
-import com.epam.movieTheater.entity.User;
+import com.epam.movieTheater.entity.*;
+import com.epam.movieTheater.service.BookingService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
@@ -18,6 +17,10 @@ import java.time.format.DateTimeFormatter;
         ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
 })
 public class BookingServiceIT {
+
+    @Autowired
+    private BookingService bookingService;
+
 //    getTicketsPrice(Event event, Auditorium auditorium, LocalDate dateTime, User user, Integer[] seats)
 //    Event(Integer eventId, String eventName, String eventPrice, String rating, String eventDate)
 //    Auditorium(Integer auditoriumId, String auditoriumName, String numberOfSeats, String vipSeats, String priceForBasicSeat, String factorForVipSeat, String factorForHighRatedEvent)
@@ -29,5 +32,10 @@ public class BookingServiceIT {
         LocalDate localDate = LocalDate.parse("12.12.1986", DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         User user = new User(1,"User1","user@mail.com","12.03.2000","");
         Integer[] seats = {1,2,4};
+    }
+
+    @Test
+    public void testBookTicket(){
+        bookingService.bookTicket(new TicketCsv(2,1,"22.04.2021",1));
     }
 }
